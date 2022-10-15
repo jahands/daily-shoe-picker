@@ -7,7 +7,12 @@ export async function onRequest(context) {
     waitUntil, // same as ctx.waitUntil in existing Worker API
     next, // used for middleware or to fetch assets
     data, // arbitrary space for passing data between middlewares
-  } = context;
+  } = context
+  const url = new URL(request.url)
 
-  return env.ASSETS.fetch('/asics_black.webp')
+  const daysSinceEpoch = Math.floor(Date.now() / 86400000)
+  const isEven = daysSinceEpoch % 2 === 0
+
+  url.pathname = isEven ? '/asics_black.webp' : '/asics_blue.webp'
+  return env.ASSETS.fetch(url)
 }
