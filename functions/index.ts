@@ -13,6 +13,6 @@ export async function onRequest(context) {
   const daysSinceEpoch = Math.floor(Date.now() / 86400000)
   const isEven = daysSinceEpoch % 2 === 0
 
-  url.pathname = isEven ? '/asics_black_small.jpg' : '/asics_blue_small.jpg'
+  url.pathname = isEven ? '/asics_black.jpg' : '/asics_blue.jpg'
   return env.ASSETS.fetch(url)
 }
