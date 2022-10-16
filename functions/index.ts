@@ -10,8 +10,16 @@ export async function onRequest(context) {
   } = context
   const url = new URL(request.url)
 
-  const daysSinceEpoch = Math.floor(Date.now() / 86400000)
-  const isEven = daysSinceEpoch % 2 === 0
+  const now = new Date();
+  const nowCST = new Date(now.toLocaleString('en-US', { timeZone: 'America/Chicago' }))
+  const cstOffset = now.getTimezoneOffset() * 60 * 1000
+
+  // Get days since epoch in CST
+  const daysSinceEpoch = (nowCST.getTime() - cstOffset) / (1000 * 60 * 60 * 24);
+
+  console.log(daysSinceEpoch)
+
+  const isEven = Math.floor(daysSinceEpoch) % 2 === 0
 
   url.pathname = isEven ? '/asics_black.jpg' : '/asics_blue.jpg'
   return env.ASSETS.fetch(url)
